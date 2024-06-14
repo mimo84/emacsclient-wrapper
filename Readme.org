@@ -2,13 +2,13 @@
 
 ** What is it
 
-This is a utility script that wraps Emacs client in order to automatically run a server configured to use a chemacs2 profile or a init-directory.
-It is going to pass to emacsclient all the extra options that are not read out by the script.
-For the options you can pass to emacsclient refer to:  https://www.gnu.org/software/emacs/manual/html_node/emacs/emacsclient-Options.html
+This is a utility script that wraps Emacs client in order to automatically run a server configured to use a chemacs2 profile or a =init-directory=.
+It is going to pass to =emacsclient= all the extra options that are not read out by the script.
+For the options you can pass to =emacsclient= refer to:  https://www.gnu.org/software/emacs/manual/html_node/emacs/emacsclient-Options.html
 
-** How is different than just running emacsclient -a?
+** How is different than just running =emacsclient -a= \?
 
-It differs because when running emacsclient with '-a' option I did not find a way to specify a profile or an init-directory, which didn't involve changing the startup script.
+It differs because when running emacsclient with =-a= option I did not find a way to specify a profile or an =init-directory=, which didn't involve changing the startup script.
 Also the script has some utility functions such as =-l= that is going to list all the socket files currently available in the system.
 
 ** Dependencies
@@ -17,11 +17,11 @@ Also the script has some utility functions such as =-l= that is going to list al
 This script expects =emacs= and =emacsclient= to be in the system and available.
 Also uses =lsof= to be installed in the system.
 
-*** profile option
+*** =profile= option
 
 In order to use the =--profile= option in the script, [[https://github.com/plexus/chemacs2][chemacs2]] is expected to be installed and configured in the system.
 
-*** init-directory option
+*** =init-directory= option
 
 The [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Initial-Options.html#index-_002d_002dinit_002ddirectory][init-directory]] option relies on Emacs being v29.
 
@@ -34,13 +34,13 @@ ec
 #+end_src
 
 *** Emacs server already running
-It will open a new instance of emacsclient in a frame, called with =-c= option.
+It will open a new instance of =emacsclient= in a frame, called with =-c= option.
 
 *** Emacs server is not running
 
-In this case is going to call emacsclient with =-a ''= option, which is going to start the server for the default profile of Emacs.
+In this case is going to call =emacsclient= with =-a ''= option, which is going to start the server for the default profile of Emacs.
 
-*** Specify a profile or init-directory
+*** Specify a profile or =init-directory=
 
 #+begin_src sh
 ec --profile <chemacs2-profile-name>
@@ -63,7 +63,7 @@ ec -s <daemon-name>
 #+end_src
 
 **** Emacs server is not running
-It is going to start a new emacs instance with a particular init-directory or profile, and then it's going to run the client associated with it.
+It is going to start a new Emacs instance with a particular =init-directory= or profile, and then it's going to run the client associated with it.
 
 ***** List available Emacs server
 
@@ -71,7 +71,7 @@ It is going to start a new emacs instance with a particular init-directory or pr
 ec -l 
 #+end_src
 
-It will return a list of open Emacs sockets using lsof.
+It will return a list of open Emacs sockets using =lsof=.
 
 *** Kill an Emacs server
 
@@ -87,16 +87,16 @@ ec -k -s <name>
 
 
 
-** Support for all the options that can be provided to emacsclient
+** Support for all the options that can be provided to =emacsclient=
 
 Just a few examples:
 
-*** Open emacs client on a particular file and line number
+*** Open =emacsclient= on a particular file and line number
 #+begin_src sh
 ec +18 ~/dotfiles/.config/conf.el
 #+end_src
 
-*** Open an emacs client using a different deamon
+*** Open =emacsclient= using a different daemon
 
 #+begin_src sh
 ec -s deamon-name +12 ~/my-file.org 
