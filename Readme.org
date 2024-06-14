@@ -1,0 +1,89 @@
+* Emacs Client Wrapper Script
+
+** What is it
+
+This is a utility script that wraps emacs client in order to automatically run a server configured to use a chemacs2 profile or a init-directory.
+It is going to pass to emacsclient all the extra options that are not read out by the script.
+For the options you can pass to emacsclient refer to:  https://www.gnu.org/software/emacs/manual/html_node/emacs/emacsclient-Options.html
+
+** How is different than just running emacsclient -a?
+
+It differs because when running emacsclient with '-a' option I did not find a way to specify a profile or an init-directory, which didn't involve changing the startup script.
+Also the script has some utility functions such as =-l= that is going to list all the socket files currently available in the system.
+
+** Examples
+
+*** Basic usage
+
+#+begin_src sh
+ec 
+#+end_src
+
+*** Emacs server already running
+It will open a new instance of emacsclient in a frame, called with =-c= option.
+
+*** Emacs server is not running
+
+In this case is going to call emacsclient with =-a ''= option, which is going to start the server for the default profile of emacs.
+
+*** Specify a profile or init-directory
+
+#+begin_src sh
+ec --profile <chemacs2-profile-name>
+# or
+ec --init-directory ~/init-directory
+#+end_src
+
+**** Emacs server already running
+It's going to just call emacs client, since the socket already exists and it's not required to create a new one.
+If you really want to run a second server besides you can always run the regular command:
+
+#+begin_src sh
+emacs --bg-daemon=<deamon-name> --init-directory ~/init-directory
+#+end_src
+
+and then call the script with the =-s= option for emacs client to reference to that particular daemon that wants to be used.
+
+#+begin_src sh
+ec -s <daemon-name>
+#+end_src
+
+**** Emacs server is not running
+It is going to start a new emacs instance with a particular init-directory or profile, and then it's going to run the client associated with it.
+***** List available emacs server
+
+#+begin_src sh
+ec -l 
+#+end_src
+
+It will return a list of open Emacs sockets using lsof.
+
+*** Kill an emacs server
+
+#+begin_src sh
+ec -k
+#+end_src
+
+Or a specific daeman instance:
+
+#+begin_src sh
+ec -k -s <name>
+#+end_src
+
+
+
+** Support for all the options that can be provided to emacsclient
+
+Just a few examples:
+
+*** Open emacs client on a particular file and line number
+#+begin_src sh
+ec +18 ~/dotfiles/.config/conf.el
+#+end_src
+
+*** Open an emacs client using a different deamon
+
+#+begin_src sh
+ec -s deamon-name +12 ~/my-file.org 
+#+end_src
+
