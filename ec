@@ -4,26 +4,7 @@ set -eu
 
 scriptVersion=0.0.2
 
-# get if the server socket file is present or not to start our own server
-# this could be improved with an option to start the server with a name
-# but then one would need to always specify the server name to use, while
-# this as default seems better
-socket_file=$(ls "${TMPDIR-/tmp}/emacs$(id -u)" | grep server || true)
-
-# being explicit about which emacs and emacs client means I can have other emacs versions to work with this script
-emacs=$(brew --prefix)/opt/emacs-plus@29/bin/emacs
-emacsclient=$(brew --prefix)/opt/emacs-plus@29/bin/emacsclient
-
-# if extra arguments is passed to the script
-# then it tries to open emacsclient with
-# it, otherwise just opens an empty frame.
-client_args=""
-kill=false
-list=false
-
-# this variable is hardcoded based on my own configuration and preference.
-profile=default
-
+# function definitions
 showUsageMessage() {
     set +x >/dev/null
     exitStatus=$1
@@ -53,6 +34,16 @@ HELP_USAGE
     exit ${exitStatus}
 }
 
+runEmacsClient() {
+    if [[ $client_args =~ (^|[[:space:]])-nw($|[[:space:]]) ]]; then
+      echo "Opening emacs in terminal mode"
+      $emacsclient $client_args -a ''
+    else
+      echo "opening emacsclient in gui mode with $client_args"
+      $emacsclient -c $client_args -a '' &
+    fi
+}
+
 showVersion() {
     echo "$(basename $0) scriptVersion: ${scriptVersion} "
 }
@@ -61,6 +52,31 @@ showVersionAndExit() {
     showVersion
     exit 0
 }
+
+# Ensure required dependencies are available in the system
+if ! command -v brew >/dev/null 2>&1; then
+    echo "brew command not found. Please install Homebrew first."
+    exit 1
+fi
+
+if ! command -v lsof >/dev/null 2>&1; then
+    echo "lsof command not found. Please install it first."
+    exit 1
+fi
+
+# check if a socket file named server is already present
+socket_file=$(ls "${TMPDIR-/tmp}/emacs$(id -u)" | grep server || true)
+
+# emacs locations
+emacs=$(brew --prefix)/opt/emacs-plus/bin/emacs
+emacsclient=$(brew --prefix)/opt/emacs-plus/bin/emacsclient
+
+
+# parse script arguments
+client_args=""
+kill=false
+list=false
+profile=default
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -96,15 +112,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-runEmacsClient() {
-    if [[ $client_args =~ (^|[[:space:]])-nw($|[[:space:]]) ]]; then
-      echo "Opening emacs in terminal mode"
-      $emacsclient $client_args -a ''
-    else
-      echo "opening emacsclient in gui mode with $client_args"
-      $emacsclient -c $client_args -a '' &
-    fi
-}
 
 if [ "$kill" = true ]; then
     $emacsclient $client_args --eval "(kill-emacs)"
@@ -116,8 +123,8 @@ if [ "$list" = true ]; then
     exit 0
 fi
 
-if [[ "$socket_file" = "" ]]; then
-    if [[ "$profile" = "" ]]; then
+if [[ -z "$socket_file" ]]; then
+    if [[ -z "$profile" ]]; then
         if [[ "$init_directory" = ""  ]]; then
             runEmacsClient
         else
