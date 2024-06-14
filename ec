@@ -54,11 +54,6 @@ showVersionAndExit() {
 }
 
 # Ensure required dependencies are available in the system
-if ! command -v brew >/dev/null 2>&1; then
-    echo "brew command not found. Please install Homebrew first."
-    exit 1
-fi
-
 if ! command -v lsof >/dev/null 2>&1; then
     echo "lsof command not found. Please install it first."
     exit 1
@@ -68,8 +63,8 @@ fi
 socket_file=$(ls "${TMPDIR-/tmp}/emacs$(id -u)" | grep server || true)
 
 # emacs locations
-emacs=$(brew --prefix)/opt/emacs-plus/bin/emacs
-emacsclient=$(brew --prefix)/opt/emacs-plus/bin/emacsclient
+emacs=$(which emacs)
+emacsclient=$(which emacsclient)
 
 
 # parse script arguments
