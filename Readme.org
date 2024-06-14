@@ -2,7 +2,7 @@
 
 ** What is it
 
-This is a utility script that wraps emacs client in order to automatically run a server configured to use a chemacs2 profile or a init-directory.
+This is a utility script that wraps Emacs client in order to automatically run a server configured to use a chemacs2 profile or a init-directory.
 It is going to pass to emacsclient all the extra options that are not read out by the script.
 For the options you can pass to emacsclient refer to:  https://www.gnu.org/software/emacs/manual/html_node/emacs/emacsclient-Options.html
 
@@ -10,6 +10,11 @@ For the options you can pass to emacsclient refer to:  https://www.gnu.org/softw
 
 It differs because when running emacsclient with '-a' option I did not find a way to specify a profile or an init-directory, which didn't involve changing the startup script.
 Also the script has some utility functions such as =-l= that is going to list all the socket files currently available in the system.
+
+** Dependencies
+
+This script expects =emacs= and =emacsclient= to be in the system and available.
+Also uses =lsof= to be installed in the system.
 
 ** Examples
 
@@ -24,7 +29,7 @@ It will open a new instance of emacsclient in a frame, called with =-c= option.
 
 *** Emacs server is not running
 
-In this case is going to call emacsclient with =-a ''= option, which is going to start the server for the default profile of emacs.
+In this case is going to call emacsclient with =-a ''= option, which is going to start the server for the default profile of Emacs.
 
 *** Specify a profile or init-directory
 
@@ -35,14 +40,14 @@ ec --init-directory ~/init-directory
 #+end_src
 
 **** Emacs server already running
-It's going to just call emacs client, since the socket already exists and it's not required to create a new one.
+It's going to just call Emacs client, since the socket already exists and it's not required to create a new one.
 If you really want to run a second server besides you can always run the regular command:
 
 #+begin_src sh
 emacs --bg-daemon=<deamon-name> --init-directory ~/init-directory
 #+end_src
 
-and then call the script with the =-s= option for emacs client to reference to that particular daemon that wants to be used.
+and then call the script with the =-s= option for Emacs client to reference to that particular daemon that wants to be used.
 
 #+begin_src sh
 ec -s <daemon-name>
@@ -50,7 +55,8 @@ ec -s <daemon-name>
 
 **** Emacs server is not running
 It is going to start a new emacs instance with a particular init-directory or profile, and then it's going to run the client associated with it.
-***** List available emacs server
+
+***** List available Emacs server
 
 #+begin_src sh
 ec -l 
@@ -58,13 +64,13 @@ ec -l
 
 It will return a list of open Emacs sockets using lsof.
 
-*** Kill an emacs server
+*** Kill an Emacs server
 
 #+begin_src sh
 ec -k
 #+end_src
 
-Or a specific daeman instance:
+Or a specific daemon instance:
 
 #+begin_src sh
 ec -k -s <name>
