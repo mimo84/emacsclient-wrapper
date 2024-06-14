@@ -13,8 +13,17 @@ Also the script has some utility functions such as =-l= that is going to list al
 
 ** Dependencies
 
+
 This script expects =emacs= and =emacsclient= to be in the system and available.
 Also uses =lsof= to be installed in the system.
+
+*** profile option
+
+In order to use the =--profile= option in the script, [[https://github.com/plexus/chemacs2][chemacs2]] is expected to be installed and configured in the system.
+
+*** init-directory option
+
+The [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Initial-Options.html#index-_002d_002dinit_002ddirectory][init-directory]] option relies on Emacs being v29.
 
 ** Examples
 
