@@ -1,4 +1,7 @@
 * Emacs Client Wrapper Script
+** Demo Video
+
+You can watch the demo for this video here: https://youtu.be/pQr6pnnZ6sA
 
 ** What is it
 
@@ -6,7 +9,7 @@ This is a utility script that wraps Emacs client in order to automatically run a
 It is going to pass to =emacsclient= all the extra options that are not read out by the script.
 For the options you can pass to =emacsclient= refer to:  https://www.gnu.org/software/emacs/manual/html_node/emacs/emacsclient-Options.html
 
-** How is different than just running =emacsclient -a= \?
+** How is different than just running =emacsclient -a=?
 
 It differs because when running emacsclient with =-a= option I did not find a way to specify a profile or an =init-directory=, which didn't involve changing the startup script.
 Also the script has some utility functions such as =-l= that is going to list all the socket files currently available in the system.
