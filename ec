@@ -22,7 +22,7 @@ showUsageMessage() {
 
       -p, --profile   available: $( tail -n +2 ~/.emacs-profiles.el | head -n -1 | cut -d "\"" -f 2 | tr '\n' ' ')
 
-      -i, --init-directory uses the init-directory to start the deamon rather than the chemasc option
+      -i, --init-directory uses the init-directory to start the daemon rather than the chemasc option
                            note that the two options are mutually exclusive, with profile having precedence
 
       -l, --list      lists the socket files that can be used to connect to a different server
